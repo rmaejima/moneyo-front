@@ -26,5 +26,5 @@ const MainContainer = styled.div`
   background-color: ${(p) => p.theme.colors.gray[50]};
 
   margin-left: ${SIDENAV_WIDTH};
-  padding: 1rem 2rem;
+  padding: 2rem;
 `;
