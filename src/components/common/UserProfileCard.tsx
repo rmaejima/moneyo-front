@@ -49,6 +49,7 @@ const UserNameText = styled.h1`
 
 const MeterContainer = styled.div`
   color: ${(p) => p.theme.colors.text.base};
+  font-weight: bold;
   > :first-child {
     margin-right: 0.5rem;
   }
