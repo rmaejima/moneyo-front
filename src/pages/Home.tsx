@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { FaHome } from 'react-icons/fa';
 
 import { PageTitle } from 'components/common/PageTitle';

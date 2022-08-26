@@ -1,20 +1,34 @@
-import logo from 'assets/logo.png';
-import styled from 'styled-components';
-
 import React from 'react';
+
+import logo from 'assets/logo.png';
 import { BsGraphUp } from 'react-icons/bs';
 import { FaHome, FaLayerGroup } from 'react-icons/fa';
 import { FiSettings } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { UserProfile } from 'types/user';
+
+import { UserProfileCard } from './UserProfileCard';
 
 export const SIDENAV_WIDTH = '25rem';
 
 export const SideNav: React.VFC = () => {
+  const mockUserData: UserProfile = {
+    userId: 'sample',
+    name: '早起きするマン',
+    experiencePoint: 23,
+    experiencePointToNextLevel: 100,
+    castlePoint: 10,
+    level: 5,
+  };
+
   return (
     <Container>
       <StyledLink to="/">
         <TitleLogo src={logo} />
       </StyledLink>
+      <StyledUserProfileCard user={mockUserData} />
       <LinkArea>
         <li>
           <StyledLink to="/">
@@ -69,6 +83,10 @@ const TitleLogo = styled.img`
   margin-bottom: 2rem;
   color: ${(p) => p.theme.colors.text.base};
   font-size: 1.5rem;
+`;
+
+const StyledUserProfileCard = styled(UserProfileCard)`
+  margin-bottom: 2rem;
 `;
 
 const LinkArea = styled.ul`

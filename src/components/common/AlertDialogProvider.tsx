@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-
 import React from 'react';
+
 import { useModal } from 'react-hooks-use-modal';
+import styled from 'styled-components';
 
 interface Props {
   title: string;
