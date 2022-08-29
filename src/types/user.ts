@@ -6,6 +6,7 @@ export interface User {
   experiencePointToNextLevel: number;
   bedTime: Date;
   wakeUpTime: Date;
+  castleName: string;
   castlePoint: number;
 }
 

@@ -8,19 +8,10 @@ import { PageSectionTitle, PageTitle } from 'components/common/PageTitle';
 import { SafeArea } from 'components/common/SafeArea';
 import { UserCard } from 'components/home/UserCard';
 
-import { User } from 'types/user';
+import { useUser } from 'utils/apis/user';
 
 export const Home: React.VFC = () => {
-  const mockUserData: User = {
-    userId: 'sample',
-    name: '早起きするマン',
-    experiencePoint: 23,
-    experiencePointToNextLevel: 100,
-    castlePoint: 10,
-    level: 5,
-    bedTime: new Date(),
-    wakeUpTime: new Date(),
-  };
+  const { user, isLoading } = useUser('test_user');
   return (
     <SafeArea>
       <TitleSectionContainer>
@@ -33,7 +24,8 @@ export const Home: React.VFC = () => {
       </TitleSectionContainer>
       <SectionContainer>
         <PageSectionTitle>勇者について</PageSectionTitle>
-        <UserCard user={mockUserData} />
+        {isLoading && <p>ロード中</p>}
+        {user && <UserCard user={user} />}
       </SectionContainer>
       <SectionContainer>
         <PageSectionTitle>城について</PageSectionTitle>
