@@ -4,6 +4,8 @@ import braveIcon from 'assets/user.png';
 import { RiMoonFill, RiSunFill } from 'react-icons/ri';
 import styled from 'styled-components';
 
+import { formatDateToHourString } from 'utils/date';
+
 import { User } from 'types/user';
 
 interface Props {
@@ -30,12 +32,12 @@ export const UserCard: React.VFC<Props> = ({ user, className }) => {
           <SleepTimeSection>
             <label>
               <RiMoonFill />
-              {user.bedTime.toISOString()}
+              {formatDateToHourString(user.bedTime)}
             </label>
             <label> ~</label>
             <label>
               <RiSunFill />
-              {user.bedTime.toISOString()}
+              {formatDateToHourString(user.wakeUpTime)}
             </label>
           </SleepTimeSection>
         </div>
@@ -57,6 +59,7 @@ const Container = styled.div`
 
 const SleepTimeSection = styled.div`
   color: ${(p) => p.theme.colors.text.light};
+  font-size: 1.5rem;
   > label {
     margin-right: 0.5rem;
   }
