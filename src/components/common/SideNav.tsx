@@ -7,28 +7,22 @@ import { FiSettings } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { UserProfile } from 'types/user';
+import { useUser } from 'utils/apis/user';
 
 import { UserProfileCard } from './UserProfileCard';
 
 export const SIDENAV_WIDTH = '25rem';
 
 export const SideNav: React.VFC = () => {
-  const mockUserData: UserProfile = {
-    userId: 'sample',
-    name: '早起きするマン',
-    experiencePoint: 23,
-    experiencePointToNextLevel: 100,
-    castlePoint: 10,
-    level: 5,
-  };
+  const { user, isLoading } = useUser('test_user');
 
   return (
     <Container>
       <StyledLink to="/">
         <TitleLogo src={logo} />
       </StyledLink>
-      <StyledUserProfileCard user={mockUserData} />
+      {isLoading && <p>ローディング中</p>}
+      {user && <StyledUserProfileCard user={user} />}
       <LinkArea>
         <li>
           <StyledLink to="/">
