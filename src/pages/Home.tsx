@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Button } from 'components/common/Button';
 import { PageSectionTitle, PageTitle } from 'components/common/PageTitle';
 import { SafeArea } from 'components/common/SafeArea';
+import { CastleCard } from 'components/home/CastleCard';
 import { UserCard } from 'components/home/UserCard';
 
 import { useUser } from 'utils/apis/user';
@@ -29,7 +30,8 @@ export const Home: React.VFC = () => {
       </SectionContainer>
       <SectionContainer>
         <PageSectionTitle>城について</PageSectionTitle>
-        <p>現在開発中です</p>
+        {isLoading && <p>ロード中</p>}
+        {user && <CastleCard castle={user} />}
       </SectionContainer>
     </SafeArea>
   );
