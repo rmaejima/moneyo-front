@@ -35,6 +35,7 @@ export const BedInDialogProvider: React.VFC<Props> = ({
   };
 
   const onClickCompletionButton = async () => {
+    localStorage.setItem('NEXT_ACTION', 'WAKE_UP');
     onCompleteBedIn?.();
     setWillCloseWindow(true);
     await new Promise((s) => setTimeout(s, 3000));
