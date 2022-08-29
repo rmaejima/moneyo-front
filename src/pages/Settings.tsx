@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { FiSettings } from 'react-icons/fi';
 import TimePicker, { TimePickerValue } from 'react-time-picker';
@@ -9,6 +9,7 @@ import { PageSectionTitle, PageTitle } from 'components/common/PageTitle';
 import { SafeArea } from 'components/common/SafeArea';
 import { TextField } from 'components/common/TextField';
 
+import { getIdealSleepTime } from 'utils/apis/sleep';
 import { formatDateToHourString } from 'utils/date';
 
 export const Settings: React.VFC = () => {
@@ -17,16 +18,32 @@ export const Settings: React.VFC = () => {
   const [sleepTime, setSleepTime] = useState<string>('');
 
   const idealBedinTime = useMemo(() => {
-    if (typeof timePickerValue !== 'string' || timePickerValue === '') {
+    if (timePickerValue === '') {
       return;
     }
-    const hour = parseInt(timePickerValue.substring(0, 2));
-    const min = parseInt(timePickerValue.substring(3, 5));
-    const idealWakeUpTime = new Date(2022, 1, 1, hour, min);
-    return new Date(
-      idealWakeUpTime.setHours(idealWakeUpTime.getHours() - Number(sleepTime)),
-    );
+    if (typeof timePickerValue !== 'string') {
+      return new Date(
+        timePickerValue.setHours(
+          timePickerValue.getHours() - Number(sleepTime),
+        ),
+      );
+    } else {
+      const hour = parseInt(timePickerValue.substring(0, 2));
+      const min = parseInt(timePickerValue.substring(3, 5));
+      const idealWakeUpTime = new Date(2022, 1, 1, hour, min);
+      return new Date(
+        idealWakeUpTime.setHours(
+          idealWakeUpTime.getHours() - Number(sleepTime),
+        ),
+      );
+    }
   }, [timePickerValue, sleepTime]);
+
+  useEffect(() => {
+    getIdealSleepTime('test_user').then((data) => {
+      setTimePickerValue(new Date(data.wakeUpTime));
+    });
+  }, []);
 
   return (
     <SafeArea>
@@ -48,7 +65,7 @@ export const Settings: React.VFC = () => {
         <TextField value={sleepTime} onChange={setSleepTime} />
       </SubSectionContainer>
       <SubSectionContainer>
-        <SubSectionTitle>推奨就寝時間</SubSectionTitle>
+        <SubSectionTitle>目標就寝時間</SubSectionTitle>
         {/* TODO: 起床、就寝時間から計算 */}
         {idealBedinTime && <p>{formatDateToHourString(idealBedinTime)}</p>}
       </SubSectionContainer>
