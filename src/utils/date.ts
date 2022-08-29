@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-export const formatDateToString = (date: Date): string => {
-  const fmt = 'yyyy年MM月dd日hh時mm分';
+export const formatDateToHourString = (date: Date): string => {
+  const fmt = 'hh:mm';
   return format(date, fmt);
 };
