@@ -2,23 +2,29 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { FiSettings } from 'react-icons/fi';
 import TimePicker, { TimePickerValue } from 'react-time-picker';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
 import { Button } from 'components/common/Button';
 import { PageSectionTitle, PageTitle } from 'components/common/PageTitle';
 import { SafeArea } from 'components/common/SafeArea';
 import { TextField } from 'components/common/TextField';
+import { ConfirmDialogProvider } from 'components/settings/ConfirmDialogProvider';
 
-import { getIdealSleepTime } from 'utils/apis/sleep';
+import {
+  IdealSleepRequest,
+  getIdealSleepTime,
+  postIdealSleepTime,
+} from 'utils/apis/sleep';
 import { formatDateToHourString } from 'utils/date';
 
 export const Settings: React.VFC = () => {
   // TODO: 起床、就寝時間取得APIにより初期化
   const [timePickerValue, setTimePickerValue] = useState<TimePickerValue>('');
-  const [sleepTime, setSleepTime] = useState<string>('');
+  const [sleepTime, setSleepTime] = useState<string>('8');
 
   const idealBedinTime = useMemo(() => {
-    if (timePickerValue === '') {
+    if (!timePickerValue || timePickerValue === '') {
       return;
     }
     if (typeof timePickerValue !== 'string') {
@@ -45,6 +51,19 @@ export const Settings: React.VFC = () => {
     });
   }, []);
 
+  const onClickUpdateSettingsButton = async () => {
+    if (typeof timePickerValue === 'string' || !idealBedinTime) {
+      return;
+    }
+    const reqBody: IdealSleepRequest = {
+      userId: 'test_user',
+      bedTime: timePickerValue.getTime(),
+      wakeUpTime: idealBedinTime.getTime(),
+    };
+    await postIdealSleepTime(reqBody);
+    toast.info('更新しました');
+  };
+
   return (
     <SafeArea>
       <TitleSectionContainer>
@@ -52,7 +71,13 @@ export const Settings: React.VFC = () => {
           <FiSettings />
           <h1>SETTINGS</h1>
         </StyledPageTitle>
-        <Button>更新</Button>
+        <ConfirmDialogProvider
+          title="設定を更新します"
+          message="一度更新すると元に戻せません。設定を更新してもよろしいですか？"
+          onClickConfirmButton={onClickUpdateSettingsButton}
+        >
+          <Button>更新</Button>
+        </ConfirmDialogProvider>
       </TitleSectionContainer>
       <PageSectionTitle>睡眠設定</PageSectionTitle>
       <SubSectionContainer>
