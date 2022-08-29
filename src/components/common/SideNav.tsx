@@ -55,7 +55,7 @@ export const SideNav: React.VFC = () => {
           </StyledLink>
         </li>
         <li>
-          <StyledLink to="/archived">
+          <StyledLink to="/settings">
             <LinkBar>
               <FiSettings />
               <p>SETTINGS</p>
