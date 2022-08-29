@@ -8,6 +8,7 @@ import { PageSectionTitle, PageTitle } from 'components/common/PageTitle';
 import { SafeArea } from 'components/common/SafeArea';
 import { CastleCard } from 'components/home/CastleCard';
 import { UserCard } from 'components/home/UserCard';
+import { BedInDialogProvider } from 'components/settings/BedInDialogProvider';
 
 import { useUser } from 'utils/apis/user';
 
@@ -21,7 +22,9 @@ export const Home: React.VFC = () => {
           <h1>HOME</h1>
         </StyledPageTitle>
         {/* TODO:値によって制御 */}
-        <Button>ベッドに入る</Button>
+        <BedInDialogProvider>
+          <Button>ベッドに入る</Button>
+        </BedInDialogProvider>
       </TitleSectionContainer>
       <SectionContainer>
         <PageSectionTitle>勇者について</PageSectionTitle>
