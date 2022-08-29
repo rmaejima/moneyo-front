@@ -36,7 +36,7 @@ const StyleButton = styled.button<{ $bgColor?: string }>`
   background-color: ${(p) => p.$bgColor ?? p.theme.colors.primary[500]};
   border-radius: 6px;
 
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   color: #fff;
   font-weight: bold;
   transition: 0.1s ${(p) => p.theme.easings.easeOut};
