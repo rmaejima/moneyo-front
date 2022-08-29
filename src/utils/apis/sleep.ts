@@ -1,4 +1,4 @@
-import { requestGet } from './axios';
+import { requestGet, requestPost } from './axios';
 
 type IdealSleepResponse = {
   userId: string;
@@ -6,12 +6,16 @@ type IdealSleepResponse = {
   wakeUpTime: number;
 };
 
+export type IdealSleepRequest = IdealSleepResponse;
+
 export const getIdealSleepTime = async (userId: string) => {
-  const { data } = await requestGet<IdealSleepResponse>(`/sleep/${userId}`);
+  const { data } = await requestGet<IdealSleepResponse>(
+    `/idealsleep/${userId}`,
+  );
   return data;
 };
 
-export const postIdealSleepTime = async (userId: string) => {
-  const response = await requestGet(`/sleep/${userId}`);
+export const postIdealSleepTime = async (request: IdealSleepRequest) => {
+  const response = await requestPost('/idealsleep', request);
   return response;
 };
