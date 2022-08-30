@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL =
+  'https://xwpqfnqvu0.execute-api.ap-northeast-1.amazonaws.com/dev';
+// const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const setOptions = async (
   options: AxiosRequestConfig,
