@@ -36,7 +36,8 @@ export const Settings: React.VFC = () => {
   const onClickUpdateSettingsButton = async () => {
     // TODO: 実データに置き換える
     const wakeUp = new Date();
-    const bedIn = new Date(wakeUp.getHours() - 8);
+    const bedIn = new Date();
+    bedIn.setHours(bedIn.getHours() - 8);
     const reqBody: IdealSleepRequest = {
       userId: 'test_user',
       wakeUpTime: wakeUp.getTime(),
