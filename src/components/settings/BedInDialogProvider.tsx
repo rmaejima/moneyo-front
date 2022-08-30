@@ -75,7 +75,7 @@ export const BedInDialogProvider: React.VFC<Props> = ({
       <CompletionModal>
         <ModalContainer>
           {willCloseWindow ? (
-            <ModalTitle>3秒後にウィンドウが閉じます</ModalTitle>
+            <p>3秒後にウィンドウが閉じます</p>
           ) : (
             <>
               {/* TODO: 誤差の時間によってメッセージを変更 */}

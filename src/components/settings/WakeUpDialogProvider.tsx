@@ -6,13 +6,19 @@ import styled, { keyframes } from 'styled-components';
 
 import { Button } from 'components/common/Button';
 
+import { formatDateToHourString } from 'utils/date';
+
+import { User } from 'types/user';
+
 interface Props {
   onCompleteWakeUp?: () => void;
+  user: User;
   children: React.ReactNode;
 }
 
 export const WakeUpDialogProvider: React.VFC<Props> = ({
   onCompleteWakeUp,
+  user,
   children,
 }) => {
   const [WakeUpModal, openWakeUpModal, closeWakeUpModal] = useModal('root', {
@@ -50,9 +56,9 @@ export const WakeUpDialogProvider: React.VFC<Props> = ({
             今日も一日がんばりましょう！
             <br />
             <br />
-            現在の時刻: 〇〇
+            現在の時刻: {formatDateToHourString(new Date())}
             <br />
-            目標就寝時間: 〇〇
+            目標就寝時間: {formatDateToHourString(user.bedTime)}
             <br />
           </ModalMessage>
           <ActionSectionContainer>
@@ -69,9 +75,11 @@ export const WakeUpDialogProvider: React.VFC<Props> = ({
             規則正しい起床により、勇者が成長しました！
             <br />
             <br />
-            獲得経験値: 〇〇
+            獲得経験値:
+            {10 - Math.abs(new Date().getHours() - user.bedTime.getHours()) * 5}
             <br />
-            次のレベルまで: 〇〇
+            次のレベルまで:
+            {user.experiencePointToNextLevel - user.experiencePoint}
             <br />
           </ModalMessage>
           <ActionSectionContainer>

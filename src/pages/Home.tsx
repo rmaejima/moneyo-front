@@ -54,7 +54,7 @@ export const Home: React.VFC = () => {
               </BedInDialogProvider>
             )}
             {nextAction === 'WAKE_UP' && (
-              <WakeUpDialogProvider onCompleteWakeUp={refetchUser}>
+              <WakeUpDialogProvider onCompleteWakeUp={refetchUser} user={user}>
                 <Button>起きた</Button>
               </WakeUpDialogProvider>
             )}
