@@ -1,7 +1,8 @@
 import React from 'react';
 
+import braveIcon from 'assets/user.png';
 import { useModal } from 'react-hooks-use-modal';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { Button } from 'components/common/Button';
 
@@ -63,6 +64,7 @@ export const WakeUpDialogProvider: React.VFC<Props> = ({
         <ModalContainer>
           {/* TODO: 誤差の時間によってメッセージを変更 */}
           <ModalTitle>勇者が成長しました！</ModalTitle>
+          <BraveIcon src={braveIcon} />
           <ModalMessage>
             規則正しい起床により、勇者が成長しました！
             <br />
@@ -110,4 +112,23 @@ const ActionSectionContainer = styled.div`
   > :not(:first-child) {
     margin-left: 1rem;
   }
+`;
+
+const DashKeyframes = keyframes`
+ 100% {
+      transform: scale(1, 1);
+    }
+`;
+
+const BraveIcon = styled.img`
+  display: block;
+  margin: 1rem auto;
+  height: 15rem;
+
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-duration: 0.75s;
+  animation-name: ${DashKeyframes};
+  transform: scale(0.85, 0.85);
 `;

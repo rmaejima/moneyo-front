@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 
+import braveIcon from 'assets/user.png';
 import { useModal } from 'react-hooks-use-modal';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { Button } from 'components/common/Button';
 
+import { formatDateToHourString } from 'utils/date';
+
+import { User } from 'types/user';
+
 interface Props {
   onCompleteBedIn?: () => void;
+  user: User;
   children: React.ReactNode;
 }
 
 export const BedInDialogProvider: React.VFC<Props> = ({
   onCompleteBedIn,
+  user,
   children,
 }) => {
   const [BedInModal, openBedInModal, closeBedInModal] = useModal('root', {
@@ -50,14 +57,14 @@ export const BedInDialogProvider: React.VFC<Props> = ({
       <BedInModal>
         <ModalContainer>
           {/* TODO: 誤差の時間によってメッセージを変更 */}
-          <ModalTitle>今日も一日お疲れ様です！</ModalTitle>
+          <ModalTitle>{user.name}さん、今日も一日お疲れ様です！</ModalTitle>
           <ModalMessage>
             よく頑張りました！！しっかり寝て明日に備えましょう！
             <br />
             <br />
-            現在の時刻: 〇〇
+            現在の時刻: {formatDateToHourString(new Date())}
             <br />
-            目標就寝時間: 〇〇
+            目標就寝時間: {formatDateToHourString(user.bedTime)}
             <br />
           </ModalMessage>
           <ActionSectionContainer>
@@ -73,13 +80,17 @@ export const BedInDialogProvider: React.VFC<Props> = ({
             <>
               {/* TODO: 誤差の時間によってメッセージを変更 */}
               <ModalTitle>勇者が成長しました！</ModalTitle>
+              <BraveIcon src={braveIcon} />
               <ModalMessage>
                 規則正しい就寝により、勇者が成長しました！
                 <br />
                 <br />
-                獲得経験値: 〇〇
+                獲得経験値:
+                {10 -
+                  Math.abs(new Date().getHours() - user.bedTime.getHours()) * 5}
                 <br />
-                次のレベルまで: 〇〇
+                次のレベルまで:
+                {user.experiencePointToNextLevel - user.experiencePoint}
                 <br />
               </ModalMessage>
               <ActionSectionContainer>
@@ -124,4 +135,23 @@ const ActionSectionContainer = styled.div`
   > :not(:first-child) {
     margin-left: 1rem;
   }
+`;
+
+const DashKeyframes = keyframes`
+ 100% {
+      transform: scale(1, 1);
+    }
+`;
+
+const BraveIcon = styled.img`
+  display: block;
+  margin: 1rem auto;
+  height: 15rem;
+
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-duration: 0.75s;
+  animation-name: ${DashKeyframes};
+  transform: scale(0.85, 0.85);
 `;
