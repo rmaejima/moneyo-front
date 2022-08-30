@@ -4,6 +4,7 @@ import { FaHome } from 'react-icons/fa';
 import styled from 'styled-components';
 
 import { Button } from 'components/common/Button';
+import { LoadingSpinner } from 'components/common/LoadingSpinner';
 import { PageSectionTitle, PageTitle } from 'components/common/PageTitle';
 import { SafeArea } from 'components/common/SafeArea';
 import { CastleCard } from 'components/home/CastleCard';
@@ -12,6 +13,7 @@ import { BedInDialogProvider } from 'components/settings/BedInDialogProvider';
 import { WakeUpDialogProvider } from 'components/settings/WakeUpDialogProvider';
 
 import { useUser } from 'utils/apis/user';
+import { colors } from 'utils/theme';
 
 export const Home: React.VFC = () => {
   const { user, isLoading, refetchUser } = useUser('test_user');
@@ -34,33 +36,39 @@ export const Home: React.VFC = () => {
 
   return (
     <SafeArea>
-      <TitleSectionContainer>
-        <StyledPageTitle>
-          <FaHome />
-          <h1>HOME</h1>
-        </StyledPageTitle>
-        {/* TODO:値によって制御 */}
-        {nextAction === 'BED_IN' && (
-          <BedInDialogProvider>
-            <Button>ベッドに入る</Button>
-          </BedInDialogProvider>
-        )}
-        {nextAction === 'WAKE_UP' && (
-          <WakeUpDialogProvider onCompleteWakeUp={refetchUser}>
-            <Button>起きた</Button>
-          </WakeUpDialogProvider>
-        )}
-      </TitleSectionContainer>
-      <SectionContainer>
-        <PageSectionTitle>勇者について</PageSectionTitle>
-        {isLoading && <p>ロード中</p>}
-        {user && <UserCard user={user} />}
-      </SectionContainer>
-      <SectionContainer>
-        <PageSectionTitle>城について</PageSectionTitle>
-        {isLoading && <p>ロード中</p>}
-        {user && <CastleCard castle={user} />}
-      </SectionContainer>
+      {isLoading && (
+        <LoadingSpinnerContainer>
+          <LoadingSpinner size="2rem" color={colors.text.light} />
+        </LoadingSpinnerContainer>
+      )}
+      {user && (
+        <>
+          <TitleSectionContainer>
+            <StyledPageTitle>
+              <FaHome />
+              <h1>HOME</h1>
+            </StyledPageTitle>
+            {nextAction === 'BED_IN' && (
+              <BedInDialogProvider user={user}>
+                <Button>ベッドに入る</Button>
+              </BedInDialogProvider>
+            )}
+            {nextAction === 'WAKE_UP' && (
+              <WakeUpDialogProvider onCompleteWakeUp={refetchUser}>
+                <Button>起きた</Button>
+              </WakeUpDialogProvider>
+            )}
+          </TitleSectionContainer>
+          <SectionContainer>
+            <PageSectionTitle>勇者について</PageSectionTitle>
+            {user && <UserCard user={user} />}
+          </SectionContainer>
+          <SectionContainer>
+            <PageSectionTitle>城について</PageSectionTitle>
+            {user && <CastleCard castle={user} />}
+          </SectionContainer>
+        </>
+      )}
     </SafeArea>
   );
 };
@@ -79,4 +87,10 @@ const TitleSectionContainer = styled.div`
 
 const SectionContainer = styled.div`
   margin-bottom: 3rem;
+`;
+
+const LoadingSpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 4rem;
 `;
