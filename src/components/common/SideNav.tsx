@@ -8,7 +8,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useUser } from 'utils/apis/user';
+import { colors } from 'utils/theme';
 
+import { LoadingSpinner } from './LoadingSpinner';
 import { UserProfileCard } from './UserProfileCard';
 
 export const SIDENAV_WIDTH = '25rem';
@@ -21,7 +23,11 @@ export const SideNav: React.VFC = () => {
       <StyledLink to="/">
         <TitleLogo src={logo} />
       </StyledLink>
-      {isLoading && <p>ローディング中</p>}
+      {isLoading && (
+        <LoadingSpinnerContainer>
+          <LoadingSpinner size="2rem" color={colors.text.light} />
+        </LoadingSpinnerContainer>
+      )}
       {user && <StyledUserProfileCard user={user} />}
       <LinkArea>
         <li>
@@ -119,4 +125,10 @@ const LinkBar = styled.div`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+`;
+
+const LoadingSpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 4rem;
 `;
